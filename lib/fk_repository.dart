@@ -1,0 +1,10 @@
+export 'package:fk_repository/data/data_parser/fk_data_parser.dart';
+export 'package:fk_repository/data/repository/rest/fk_rest_repository.dart';
+export 'package:fk_repository/data/typedefs.dart';
+export 'package:fk_repository/domain/repository/fk_repository.dart';
+export 'package:fk_repository/domain/repository/fk_create.dart';
+export 'package:fk_repository/data/repository/rest/fk_rest_create.dart';
+export 'package:fk_repository/data/http/fk_dio_http_client.dart';
+export 'package:fk_repository/domain/http/fk_http_client.dart';
+export 'package:fk_repository/domain/http/fk_http_exception.dart';
+export 'package:fk_repository/domain/http/fk_http_response.dart';
