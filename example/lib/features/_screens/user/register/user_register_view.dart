@@ -20,6 +20,13 @@ class UserRegisterView extends FkView<UserRegisterViewModel> {
             key: viewModel.registerFormKey,
             child: Column(
               children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: IconButton(
+                    onPressed: context.pop,
+                    icon: Icon(Icons.chevron_left, size: 40),
+                  ),
+                ),
                 const Text(
                   'Create User',
                   style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),

@@ -4,10 +4,13 @@ class FkDataParser<T> {
   const FkDataParser();
 }
 
+abstract class FkFullDataParser<T> extends FkDataParser<T>
+    with ToMap, FromMap {}
+
 mixin FromMap<T> on FkDataParser<T> {
   T fromMap(FkJsonMap map);
 }
 
 mixin ToMap<T> on FkDataParser<T> {
-  FkJsonMap toMap(T object);
+  FkJsonMap toMap(T entity);
 }

@@ -4,8 +4,8 @@ import 'package:example/features/user/domain/user.dart';
 import 'package:fk_booster/fk_booster.dart';
 import 'package:flutter/cupertino.dart';
 
-class UserRegisterViewModel extends FkViewModel<UserRegisterState> {
-  UserRegisterViewModel(this._repository) : super(const UserRegisterState());
+class UserRegisterViewModel extends FkViewModel<UserRegisterViewState> {
+  UserRegisterViewModel(this._repository) : super(const UserRegisterViewState());
 
   final UserRestRepository _repository;
   final registerFormKey = GlobalKey<FormState>();

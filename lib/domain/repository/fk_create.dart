@@ -1,3 +1,3 @@
-abstract mixin class FkCreate<Entity, ReturnType> {
-  Future<ReturnType> create(Entity entity);
+abstract mixin class FkCreate<Entity> {
+  Future<Entity> create(Entity entity);
 }

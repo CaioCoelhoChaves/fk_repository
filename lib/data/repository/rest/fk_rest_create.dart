@@ -3,20 +3,19 @@ import 'package:fk_repository/data/typedefs.dart';
 import 'package:fk_repository/domain/repository/fk_create.dart';
 import 'package:flutter/foundation.dart';
 
-mixin FkRestCreate<Entity, ReturnType extends Object>
-    on FkRestRepository<Entity>
-    implements FkCreate<Entity, ReturnType> {
+mixin FkRestCreate<Entity extends Object> on FkRestRepository<Entity>
+    implements FkCreate<Entity> {
   @protected
   String createEndpoint() => endpoint();
 
   @protected
-  FkJsonMap createToMap(Entity entity);
+  FkJsonMap createToMap(Entity entity) => parser.toMap(entity);
 
   @protected
-  ReturnType createFromMap(FkJsonMap map);
+  Entity createFromMap(FkJsonMap map) => parser.fromMap(map);
 
   @override
-  Future<ReturnType> create(Entity entity) async {
+  Future<Entity> create(Entity entity) async {
     final response = await httpClient.post(
       createEndpoint(),
       data: createToMap(entity),
