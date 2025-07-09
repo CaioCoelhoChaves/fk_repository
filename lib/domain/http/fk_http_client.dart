@@ -1,34 +1,42 @@
-import 'package:fk_repository/domain/http/fk_http_response.dart';
+import 'package:fk_repository/domain/entity/fk_paginated_entity.dart';
+import 'fk_http_response.dart';
 
-abstract class FkHttpClient {
-  const FkHttpClient();
+abstract class FKHttpClient {
+  const FKHttpClient({
+    required this.paginationDecoder,
+    this.responseWrapperDecoder,
+  });
 
-  Future<FkHttpResponse> post(
+  final FKPagination Function(FKHttpResponse) paginationDecoder;
+  final dynamic Function(FKHttpResponse)? responseWrapperDecoder;
+
+  Future<FKHttpResponse> post(
     String path, {
     required Map<String, dynamic> data,
     Map<String, dynamic>? queryParameters,
     Map<String, dynamic>? headers,
   });
 
-  Future<FkHttpResponse> get(
+  Future<FKHttpResponse> get(
     String path, {
     Map<String, dynamic>? queryParameters,
     Map<String, dynamic>? headers,
   });
 
-  Future<FkHttpResponse> put(
+  Future<FKHttpResponse> put(
     String path, {
     required Map<String, dynamic> data,
     Map<String, dynamic>? queryParameters,
     Map<String, dynamic>? headers,
   });
 
-  Future<FkHttpResponse> delete(
+  Future<FKHttpResponse> delete(
     String path, {
     Map<String, dynamic>? queryParameters,
     Map<String, dynamic>? headers,
   });
-  Future<FkHttpResponse> patch(
+
+  Future<FKHttpResponse> patch(
     String path, {
     required Map<String, dynamic> data,
     Map<String, dynamic>? queryParameters,

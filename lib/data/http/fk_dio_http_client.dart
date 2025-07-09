@@ -1,11 +1,14 @@
 import 'package:dio/dio.dart';
+import 'package:fk_repository/domain/entity/fk_paginated_entity.dart';
 import 'package:fk_repository/domain/http/fk_http_client.dart';
 import 'package:fk_repository/domain/http/fk_http_exception.dart';
 import 'package:fk_repository/domain/http/fk_http_response.dart';
 
-class FkDioHttpClient implements FkHttpClient {
-  FkDioHttpClient({
+class FKDioHttpClient implements FKHttpClient {
+  FKDioHttpClient({
     required String baseUrl,
+    required this.paginationDecoder,
+    this.responseWrapperDecoder,
     Map<String, dynamic>? defaultHeaders,
     Duration? connectTimeout,
     Duration? receiveTimeout,
@@ -19,10 +22,15 @@ class FkDioHttpClient implements FkHttpClient {
     _dio = Dio(options);
   }
 
+  @override
+  final FKPagination Function(FKHttpResponse) paginationDecoder;
+  @override
+  final dynamic Function(dynamic)? responseWrapperDecoder;
+
   late final Dio _dio;
 
   @override
-  Future<FkHttpResponse> post(
+  Future<FKHttpResponse> post(
     String path, {
     required Map<String, dynamic> data,
     Map<String, dynamic>? queryParameters,
@@ -39,7 +47,7 @@ class FkDioHttpClient implements FkHttpClient {
   }
 
   @override
-  Future<FkHttpResponse> get(
+  Future<FKHttpResponse> get(
     String path, {
     Map<String, dynamic>? queryParameters,
     Map<String, dynamic>? headers,
@@ -54,7 +62,7 @@ class FkDioHttpClient implements FkHttpClient {
   }
 
   @override
-  Future<FkHttpResponse> put(
+  Future<FKHttpResponse> put(
     String path, {
     required Map<String, dynamic> data,
     Map<String, dynamic>? queryParameters,
@@ -71,7 +79,7 @@ class FkDioHttpClient implements FkHttpClient {
   }
 
   @override
-  Future<FkHttpResponse> delete(
+  Future<FKHttpResponse> delete(
     String path, {
     Map<String, dynamic>? queryParameters,
     Map<String, dynamic>? headers,
@@ -86,7 +94,7 @@ class FkDioHttpClient implements FkHttpClient {
   }
 
   @override
-  Future<FkHttpResponse> patch(
+  Future<FKHttpResponse> patch(
     String path, {
     required Map<String, dynamic> data,
     Map<String, dynamic>? queryParameters,
@@ -102,17 +110,18 @@ class FkDioHttpClient implements FkHttpClient {
     );
   }
 
-  Future<FkHttpResponse> _execute(
+  Future<FKHttpResponse> _execute(
     Future<Response<dynamic>> Function() request,
   ) async {
     try {
       final response = await request();
-      return FkHttpResponse(
-        data: response.data,
+      return FKHttpResponse(
+        data: responseWrapperDecoder?.call(response.data) ?? response.data,
         statusCode: response.statusCode,
+        headers: response.headers.map,
       );
     } on DioException catch (e) {
-      throw FkHttpException(error: e, message: e.message);
+      throw FKHttpException(error: e, message: e.message);
     }
   }
 }

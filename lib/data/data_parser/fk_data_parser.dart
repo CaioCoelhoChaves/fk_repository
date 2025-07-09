@@ -1,16 +1,13 @@
 import 'package:fk_repository/data/typedefs.dart';
 
-class FkDataParser<T> {
-  const FkDataParser();
+class FKDataParser<T> {
+  const FKDataParser();
 }
 
-abstract class FkFullDataParser<T> extends FkDataParser<T>
-    with ToMap, FromMap {}
-
-mixin FromMap<T> on FkDataParser<T> {
+mixin FKFromMap<T> on FKDataParser<T> {
   T fromMap(FkJsonMap map);
 }
 
-mixin ToMap<T> on FkDataParser<T> {
+mixin FKToMap<T> on FKDataParser<T> {
   FkJsonMap toMap(T entity);
 }
